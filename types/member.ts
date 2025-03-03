@@ -1,4 +1,5 @@
 export interface Unit {
+  id: number;
   name: string;
   color?: string;
   textColor?: string;
@@ -10,6 +11,7 @@ export interface Member {
   name: string;
   fullName: string;
   originalName: string;
+  stageName: string;
   birthDate: string;
   revealDate: string;
   nationality: string;

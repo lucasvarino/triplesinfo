@@ -2,7 +2,10 @@
     <div class="flex flex-col lg:flex-row min-h-[calc(100vh-4rem)]">
         <!-- Left side - Member info -->
         <div class="flex-1 p-6 md:p-12 flex flex-col justify-center">
-            <h1 class="text-5xl md:text-7xl font-bold mb-12">{{ member.name }}</h1>
+            <div class="flex items-center justify-between">
+                <h1 class="text-5xl md:text-7xl font-bold mb-12">{{ member.name }}</h1>
+                <h1 class="text-5xl md:text-7xl font-bold mb-12 text-gray-800">{{ member.stageName }}</h1>
+            </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                 <div>
@@ -40,13 +43,18 @@
                         <p class="text-xl">{{ member.colorName }}</p>
                     </div>
                 </div>
+
+                <div>
+                    <h3 class="text-sm text-gray-400 mb-1">Emoji</h3>
+                    <p class="text-xl">{{ member.emoji }}</p>
+                </div>
             </div>
 
             <div class="mt-12">
                 <h3 class="text-sm text-gray-400 mb-4">Unit activity</h3>
                 <div class="flex flex-wrap gap-2">
-                    <button v-for="unit in member.units" :key="unit.name" class="unit-button"
-                        :style="{ backgroundColor: unit.color || '#333', color: unit.textColor || 'white' }">
+                    <button v-for="unit in commonUnits" :key="unit.name" class="unit-button"
+                        :style="member.units.includes(unit) ? { backgroundColor: unit.color || '#333', color: unit.textColor || 'white' } : { backgroundColor: '#0d0d0d', color: '#1c1c1c' }">
                         {{ unit.name }}
                     </button>
                 </div>
@@ -92,7 +100,7 @@
 import { useRouter } from 'vue-router'
 import { NuxtImg } from '#components'
 import { ChevronLeft, ChevronRight } from 'lucide-vue-next'
-import { members } from '~/data/members'
+import { members, commonUnits } from '~/data/members'
 import type { Member } from '~/types/member'
 
 const props = defineProps<{
