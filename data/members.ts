@@ -1,12 +1,18 @@
 import type { Member, Unit } from "~/types/member";
 
 const commonUnits: Unit[] = [
+    { name: "Acid Angels from Asia", color: "#feff00", textColor: "black" },
     { name: "ASSEMBLE", color: "#666666", textColor: "white" },
     { name: "+KRystal Eyes", color: "#FFC0CB", textColor: "black" },
     { name: "ACID EYES", color: "#00FF00", textColor: "black" },
     { name: "LOVElution", color: "#007BFF", textColor: "white" },
-    { name: "EVOLution", color: "#333333", textColor: "white" },
+    { name: "EVOLution", color: "#dd2827", textColor: "white" },
+    { name: "NXT", color: "#91ebef", textColor: "black" },
+    { name: "Aria", color: "#ff7475", textColor: "white" },
     { name: "ASSEMBLE24", color: "#FFFFFF", textColor: "black" },
+    { name: "Glow", color: "#cb20f5", textColor: "white" },
+    { name: "Visionary Vision", color: "#0c1ed7", textColor: "white" },
+    { name: "∞!(Hatchi)", color: "#efcbe1", textColor: "black" },
   ];
 
 export const members: Member[] = [
