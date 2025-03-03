@@ -1,0 +1,121 @@
+<template>
+    <div class="flex flex-col lg:flex-row min-h-[calc(100vh-4rem)]">
+        <!-- Left side - Member info -->
+        <div class="flex-1 p-6 md:p-12 flex flex-col justify-center">
+            <h1 class="text-5xl md:text-7xl font-bold mb-12">{{ member.name }}</h1>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                <div>
+                    <h3 class="text-sm text-gray-400 mb-1">Full name</h3>
+                    <p class="text-xl">{{ member.fullName }}</p>
+                </div>
+
+                <div>
+                    <h3 class="text-sm text-gray-400 mb-1">Original</h3>
+                    <p class="text-xl">{{ member.originalName }}</p>
+                </div>
+
+                <div>
+                    <h3 class="text-sm text-gray-400 mb-1">Date of birth</h3>
+                    <p class="text-xl">{{ member.birthDate }}</p>
+                </div>
+
+                <div>
+                    <h3 class="text-sm text-gray-400 mb-1">Reveal date</h3>
+                    <p class="text-xl">{{ member.revealDate }}</p>
+                </div>
+
+                <div>
+                    <h3 class="text-sm text-gray-400 mb-1">Nationality</h3>
+                    <div class="flex items-center gap-2">
+                        <p class="text-xl">{{ member.nationality }}</p>
+                        <span v-if="member.flag" class="text-xl">{{ member.flag }}</span>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-sm text-gray-400 mb-1">Designated color</h3>
+                    <div class="flex items-center gap-2">
+                        <div class="w-4 h-4 rounded-full" :style="{ backgroundColor: member.color }"></div>
+                        <p class="text-xl">{{ member.colorName }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12">
+                <h3 class="text-sm text-gray-400 mb-4">Unit activity</h3>
+                <div class="flex flex-wrap gap-2">
+                    <button v-for="unit in member.units" :key="unit.name" class="unit-button"
+                        :style="{ backgroundColor: unit.color || '#333', color: unit.textColor || 'white' }">
+                        {{ unit.name }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right side - Member image -->
+        <div class="flex-1 relative">
+            <div class="absolute top-1/2 left-4 transform -translate-y-1/2 z-10">
+                <button @click="navigateToPrev"
+                    class="w-10 h-10 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/80 transition-colors"
+                    aria-label="Previous member">
+                    <ChevronLeft class="w-6 h-6" />
+                </button>
+            </div>
+
+            <div class="absolute top-1/2 right-4 transform -translate-y-1/2 z-10">
+                <button @click="navigateToNext"
+                    class="w-10 h-10 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/80 transition-colors"
+                    aria-label="Next member">
+                    <ChevronRight class="w-6 h-6" />
+                </button>
+            </div>
+
+            <div class="h-full min-h-[50vh] lg:min-h-full relative">
+                <NuxtImg :src="member.image" :alt="member.name" fill
+                    class="object-cover" />
+                <div class="absolute top-4 right-4">
+                    <h2 class="text-2xl font-bold">{{ member.name }}</h2>
+                </div>
+                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                    <h2 class="text-3xl md:text-4xl font-bold">
+                        {{ member.catchphrase || "Girls Never Die" }}
+                    </h2>
+                    <p class="text-sm text-gray-300 mt-2">©️ MODHAUS. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script setup lang="ts">
+import { useRouter } from 'vue-router'
+import { NuxtImg } from '#components'
+import { ChevronLeft, ChevronRight } from 'lucide-vue-next'
+import { members } from '~/data/members'
+import type { Member } from '~/types/member'
+
+const props = defineProps<{
+    member: Member
+}>()
+
+const router = useRouter()
+
+const currentIndex = members.findIndex((m) => m.id === props.member.id)
+const prevMember = members[currentIndex - 1] || members[members.length - 1]
+const nextMember = members[currentIndex + 1] || members[0]
+
+function navigateToPrev() {
+    router.push(`/member/${prevMember.id}`)
+}
+
+function navigateToNext() {
+    router.push(`/member/${nextMember.id}`)
+}
+</script>
+
+<style scoped>
+.unit-button {
+  @apply px-4 py-2 rounded-full text-sm font-medium transition-all;
+}
+</style>
