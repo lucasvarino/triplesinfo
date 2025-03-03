@@ -50,9 +50,9 @@ import { NuxtLink } from '#components'
 const isOpen = ref(false)
 
 const links = [
-    { href: '/introduction', label: 'introduction' },
+    { href: '/', label: 'introduction' },
     { href: '/members', label: 'members' },
-    { href: '/units', label: 'units' },
-    { href: '/discography', label: 'discography' },
+    // { href: '/units', label: 'units' },
+    // { href: '/discography', label: 'discography' },
 ]
 </script>
