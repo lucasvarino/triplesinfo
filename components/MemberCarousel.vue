@@ -18,7 +18,11 @@
         <!-- Carrossel de imagens -->
         <div class="flex-1 relative overflow-hidden flex justify-center items-center h-full">
             <div class="h-[calc(100vh-16rem)] w-auto">
-                <img :src="currentImage" :alt="memberName" class="h-full w-auto object-contain transition-opacity duration-500 rounded-lg" />
+                <img :src="currentImage" :alt="memberName" 
+                    class="h-full w-auto object-contain transition-opacity duration-500 rounded-lg"
+                    :style="{
+                        filter: `drop-shadow(0 0 12px ${memberColor})`
+                    }" />
             </div>
         </div>
     </div>
@@ -26,12 +30,12 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { NuxtImg } from '#components'
 import { ChevronLeft, ChevronRight } from 'lucide-vue-next'
 
 interface Props {
     images: string[],
     memberName: string,
+    memberColor: string,
     catchphrase?: string
 }
 
@@ -39,17 +43,16 @@ const props = defineProps<Props>()
 
 const currentIndex = ref(0)
 
-// Computa a imagem atual com base no índice
 const currentImage = computed(() => props.images[currentIndex.value])
 
-// Função para ir para o slide anterior
+
 function prevSlide() {
     currentIndex.value = currentIndex.value === 0
         ? props.images.length - 1
         : currentIndex.value - 1
 }
 
-// Função para ir para o próximo slide
+
 function nextSlide() {
     currentIndex.value = currentIndex.value === props.images.length - 1
         ? 0

@@ -63,7 +63,7 @@
 
         <!-- Right side - Member image -->
         <div class="flex-1">
-            <MemberCarousel :images="memberImages" :memberName="member.name" :catchphrase="member.catchphrase" /> 
+            <MemberCarousel :images="memberImages" :memberName="member.name" :memberColor="member.color" :catchphrase="member.catchphrase" /> 
         </div>
     </div>
 </template>
