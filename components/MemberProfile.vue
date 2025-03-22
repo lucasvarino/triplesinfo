@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col lg:flex-row min-h-[calc(100vh-4rem)]">
         <!-- Left side - Member info -->
-        <div class="flex-1 p-6 md:p-12 flex flex-col justify-center">
+        <div class="flex-1 p-6 md:p-12 flex flex-col justify-center items-between">
             <div class="flex items-center justify-between">
                 <h1 class="text-5xl md:text-7xl font-bold mb-12">{{ member.name }}</h1>
                 <h1 class="text-5xl md:text-7xl font-bold mb-12 text-gray-800">{{ member.stageName }}</h1>
@@ -62,36 +62,8 @@
         </div>
 
         <!-- Right side - Member image -->
-        <div class="flex-1 relative">
-            <div class="absolute top-1/2 left-4 transform -translate-y-1/2 z-10">
-                <button @click="navigateToPrev"
-                    class="w-10 h-10 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/80 transition-colors"
-                    aria-label="Previous member">
-                    <ChevronLeft class="w-6 h-6" />
-                </button>
-            </div>
-
-            <div class="absolute top-1/2 right-4 transform -translate-y-1/2 z-10">
-                <button @click="navigateToNext"
-                    class="w-10 h-10 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/80 transition-colors"
-                    aria-label="Next member">
-                    <ChevronRight class="w-6 h-6" />
-                </button>
-            </div>
-
-            <div class="h-full min-h-[50vh] lg:min-h-full relative">
-                <NuxtImg :src="member.image" :alt="member.name" fill
-                    class="object-cover" />
-                <div class="absolute top-4 right-4">
-                    <h2 class="text-2xl font-bold">{{ member.name }}</h2>
-                </div>
-                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
-                    <h2 class="text-3xl md:text-4xl font-bold">
-                        {{ member.catchphrase || "Girls Never Die" }}
-                    </h2>
-                    <p class="text-sm text-gray-300 mt-2">©️ MODHAUS. All Rights Reserved.</p>
-                </div>
-            </div>
+        <div class="flex-1">
+            <MemberCarousel :images="memberImages" :memberName="member.name" :catchphrase="member.catchphrase" /> 
         </div>
     </div>
 </template>
@@ -102,6 +74,7 @@ import { NuxtImg } from '#components'
 import { ChevronLeft, ChevronRight } from 'lucide-vue-next'
 import { members, commonUnits } from '~/data/members'
 import type { Member } from '~/types/member'
+import MemberCarousel from './MemberCarousel.vue'
 
 const props = defineProps<{
     member: Member
@@ -112,6 +85,10 @@ const router = useRouter()
 const currentIndex = members.findIndex((m) => m.id === props.member.id)
 const prevMember = members[currentIndex - 1] || members[members.length - 1]
 const nextMember = members[currentIndex + 1] || members[0]
+
+const memberImages = computed(() => 
+    Array.from({ length: 3 }, (_, i) => `/images/members/profile/s${props.member.number}/${i + 1}.jpeg`)
+)
 
 function navigateToPrev() {
     router.push(`/member/${prevMember.id}`)
